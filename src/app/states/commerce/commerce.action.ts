@@ -5,7 +5,7 @@ export const fetchCommerce = createAction('[Fetch commerce] fetchCommerce');
 
 export const fetchCommerceSuccess = createAction(
     '[Fetch commerce] fetchCommerceSuccess',
-    props<{ commerce: ICommerce[] }>()
+    props<{ commerces: ICommerce[] }>()
 )
 
 export const fetchCommerceFailure = createAction(
