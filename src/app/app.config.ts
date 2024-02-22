@@ -7,6 +7,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { CommerceReducer } from './states/commerce/commerce.reducer';
 import { CommerceEffect } from './states/commerce/commerce.effect';
 import { provideEffects } from '@ngrx/effects';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,6 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore(),
     provideState({ name: 'commerce', reducer: CommerceReducer }),
-    provideEffects(CommerceEffect)
+    provideEffects(CommerceEffect), provideAnimationsAsync()
   ]
 };
