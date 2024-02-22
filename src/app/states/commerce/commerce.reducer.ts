@@ -24,10 +24,12 @@ export const CommerceReducer = createReducer(
     on(CommerceActions.fetchCommerceSuccess, (state, { commerces }) => ({
         ...state,
         commerces,
+        loading: false,
         error: null
     })),
     on(CommerceActions.fetchCommerceFailure, (state, { errorMessage }) => ({
         ...state,
-        error: errorMessage
+        error: errorMessage,
+        loading: false,
     }))
 )
