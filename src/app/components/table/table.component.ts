@@ -5,12 +5,15 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatSelectModule } from '@angular/material/select';
 
 import { Observable, Subscription } from 'rxjs';
 import { ICommerce } from '../../types';
 import { Store } from '@ngrx/store';
 import * as CommerceActions from '../../states/commerce/commerce.action';
 import * as CommerceSelectors from '../../states/commerce/commerce.selector';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-table',
@@ -22,6 +25,9 @@ import * as CommerceSelectors from '../../states/commerce/commerce.selector';
     MatInputModule,
     MatSortModule,
     MatSort,
+    MatGridListModule,
+    MatSelectModule,
+    CommonModule,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -47,6 +53,7 @@ export class TableComponent implements AfterViewInit, OnDestroy {
   loading$!: Observable<boolean>;
   private commercesSubscription!: Subscription;
   tabData$!: ICommerce[];
+  brands: string[] = [];
 
   constructor(
     private store: Store<{
@@ -66,6 +73,8 @@ export class TableComponent implements AfterViewInit, OnDestroy {
       this.dataSource = new MatTableDataSource<ICommerce>(commerces);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+
+      this.brands = [...new Set(commerces.map(commerce => commerce.brand))];
     });
   }
 
@@ -76,6 +85,11 @@ export class TableComponent implements AfterViewInit, OnDestroy {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  filterByBrand(brand: string) {
+    if (!this.dataSource) return;
+    this.dataSource.filter = brand.trim().toLocaleLowerCase();
   }
   ngOnDestroy(): void {
     if (this.commercesSubscription) {
