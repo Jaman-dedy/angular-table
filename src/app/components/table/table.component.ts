@@ -1,37 +1,60 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
-import { CommerceService } from '../../services/commerce.service';
 import { Observable, Subscription } from 'rxjs';
 import { ICommerce } from '../../types';
 import { Store } from '@ngrx/store';
-import * as CommerceActions from '../../states/commerce/commerce.action'
-import * as CommerceSelectors from '../../states/commerce/commerce.selector'
+import * as CommerceActions from '../../states/commerce/commerce.action';
+import * as CommerceSelectors from '../../states/commerce/commerce.selector';
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule],
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSortModule,
+    MatSort,
+  ],
   templateUrl: './table.component.html',
-  styleUrl: './table.component.scss'
+  styleUrl: './table.component.scss',
 })
 export class TableComponent implements AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   dataSource = new MatTableDataSource<ICommerce>([]);
-  displayedColumns: string[] = ['name', 'brand', 'style', 'hop', 'yeast', 'malts', 'ibu', 'alcohol', 'blg'];
-  // commerceService = inject(CommerceService);
+  displayedColumns: string[] = [
+    'name',
+    'brand',
+    'style',
+    'hop',
+    'yeast',
+    'malts',
+    'ibu',
+    'alcohol',
+    'blg',
+  ];
   commerces$!: Observable<ICommerce[]>;
   error$!: Observable<string | null>;
   loading$!: Observable<boolean>;
   private commercesSubscription!: Subscription;
   tabData$!: ICommerce[];
 
-
-
-  constructor(private store: Store<{ commerces: ICommerce[], error: string, loading: boolean }>) {
+  constructor(
+    private store: Store<{
+      commerces: ICommerce[];
+      error: string;
+      loading: boolean;
+    }>
+  ) {
     this.store.dispatch(CommerceActions.fetchCommerce());
     this.commerces$ = this.store.select(CommerceSelectors.selectCommerces);
     this.error$ = this.store.select(CommerceSelectors.selectCommerceError);
@@ -39,20 +62,20 @@ export class TableComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.commercesSubscription = this.commerces$.subscribe(commerces => {
-      console.log('Commerces:', commerces);
+    this.commercesSubscription = this.commerces$.subscribe((commerces) => {
       this.dataSource = new MatTableDataSource<ICommerce>(commerces);
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
-    // this.dataSource.paginator = this.paginator;
-    // this.commerces$.subscribe(commerces => {
-    //   console.log('Commerces:', commerces);
-    //   // const ELEMENT_DATA: PeriodicElement[] = commerces
-    //   this.tabData$ = commerces
-    // });
-    // this.loading$.subscribe(loading => {
-    //   console.log('loading:', loading);
-    // });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
   ngOnDestroy(): void {
     if (this.commercesSubscription) {
