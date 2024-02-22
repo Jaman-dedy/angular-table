@@ -14,6 +14,7 @@ import { Store } from '@ngrx/store';
 import * as CommerceActions from '../../states/commerce/commerce.action';
 import * as CommerceSelectors from '../../states/commerce/commerce.selector';
 import { CommonModule } from '@angular/common';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-table',
@@ -28,6 +29,8 @@ import { CommonModule } from '@angular/common';
     MatGridListModule,
     MatSelectModule,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -54,6 +57,7 @@ export class TableComponent implements AfterViewInit, OnDestroy {
   private commercesSubscription!: Subscription;
   tabData$!: ICommerce[];
   brands: string[] = [];
+  selectedBrands = new FormControl([]);
 
   constructor(
     private store: Store<{
@@ -86,10 +90,13 @@ export class TableComponent implements AfterViewInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  filterByBrand(brand: string) {
+  filterByBrand(selectedBrands: string[]): void {
     if (!this.dataSource) return;
-    this.dataSource.filter = brand.trim().toLocaleLowerCase();
+    const filterValue = selectedBrands.map(brand => brand.trim().toLowerCase());
+    this.dataSource.filterPredicate = (item: ICommerce) => {
+      return filterValue.includes(item.brand.toLowerCase());
+    };
+    this.dataSource.filter = filterValue.join(',');
   }
   ngOnDestroy(): void {
     if (this.commercesSubscription) {
