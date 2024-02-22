@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { CommerceService } from '../../services/commerce.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ICommerce } from '../../types';
 import { Store } from '@ngrx/store';
 import * as CommerceActions from '../../states/commerce/commerce.action'
@@ -17,18 +17,21 @@ import * as CommerceSelectors from '../../states/commerce/commerce.selector'
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
-export class TableComponent implements AfterViewInit {
-  commerceService = inject(CommerceService);
+export class TableComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  dataSource = new MatTableDataSource<ICommerce>([]);
+  displayedColumns: string[] = ['name', 'brand', 'style', 'hop', 'yeast', 'malts', 'ibu', 'alcohol', 'blg'];
+  // commerceService = inject(CommerceService);
   commerces$!: Observable<ICommerce[]>;
   error$!: Observable<string | null>;
   loading$!: Observable<boolean>;
+  private commercesSubscription!: Subscription;
+  tabData$!: ICommerce[];
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private store: Store<{ commerces: ICommerce[] }>) {
+  constructor(private store: Store<{ commerces: ICommerce[], error: string, loading: boolean }>) {
     this.store.dispatch(CommerceActions.fetchCommerce());
     this.commerces$ = this.store.select(CommerceSelectors.selectCommerces);
     this.error$ = this.store.select(CommerceSelectors.selectCommerceError);
@@ -36,13 +39,25 @@ export class TableComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.commerces$.subscribe(commerces => {
+    this.commercesSubscription = this.commerces$.subscribe(commerces => {
       console.log('Commerces:', commerces);
+      this.dataSource = new MatTableDataSource<ICommerce>(commerces);
+      this.dataSource.paginator = this.paginator;
     });
-    this.loading$.subscribe(loading => {
-      console.log('loading:', loading);
-    });
+    // this.dataSource.paginator = this.paginator;
+    // this.commerces$.subscribe(commerces => {
+    //   console.log('Commerces:', commerces);
+    //   // const ELEMENT_DATA: PeriodicElement[] = commerces
+    //   this.tabData$ = commerces
+    // });
+    // this.loading$.subscribe(loading => {
+    //   console.log('loading:', loading);
+    // });
+  }
+  ngOnDestroy(): void {
+    if (this.commercesSubscription) {
+      this.commercesSubscription.unsubscribe();
+    }
   }
 }
 

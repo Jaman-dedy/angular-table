@@ -1,0 +1,23 @@
+table {
+  width: 100%;
+}
+
+th[mat-header-cell] {
+  background: #f5f6f8;
+  font-size: 15px;
+  padding: 25px;
+  border-color: #f5f6f8;
+}
+
+td[mat-cell] {
+  padding: 25px;
+  border-color: #f5f6f8;
+}
+
+tr[mat-row] {
+  padding: 25px;
+  border-color: #f5f6f8;
+}
+tr[mat-row]:hover {
+  background: #f5f6f8;
+}
