@@ -6,6 +6,26 @@
   padding-right: 4rem;
 }
 
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.error-container {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ffe5e5;
+  border: 1px solid #ff9999;
+  border-radius: 5px;
+}
+
+.error-message {
+  color: #ff3333;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 992px) {
   .wrapper {
     padding-left: 5rem;

@@ -1,11 +1,20 @@
-
-
 <div class="wrapper">
   <div class="header">
     <h1>Angular table case study</h1>
   </div>
-  <div class="" class="md-margin" *ngIf="commerces | async as commerceData">
-    <app-table [data]="commerceData" [displayedColumns]="displayedColumns"></app-table>
-</div>
-</div>
+  <div class="md-margin loading-container" *ngIf="loading | async; else commerceData">
+    <mat-spinner diameter="150"></mat-spinner>
+  </div>
 
+  <ng-template #commerceData>
+    <div class="error-container" *ngIf="(error | async) as errorMessage">
+      <div class="error-message">{{ errorMessage }}</div>
+    </div>
+    <div class="" class="md-margin" *ngIf="commerces | async as commerceData">
+      <app-table
+        [data]="commerceData"
+        [displayedColumns]="displayedColumns"
+      ></app-table>
+    </div>
+  </ng-template>
+</div>

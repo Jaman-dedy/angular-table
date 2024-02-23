@@ -7,11 +7,12 @@ import * as CommerceActions from '../states/commerce/commerce.action';
 import * as CommerceSelectors from '../states/commerce/commerce.selector';
 import { TableComponent } from '../components/table/table.component';
 import { AsyncPipe, CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [TableComponent, AsyncPipe, CommonModule],
+  imports: [TableComponent, AsyncPipe, CommonModule, MatProgressSpinnerModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
