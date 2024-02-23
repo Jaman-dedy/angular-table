@@ -31,6 +31,7 @@ export class HomeComponent {
   commerces: Observable<ICommerce[]>;
   error!: Observable<string | null>;
   loading!: Observable<boolean>;
+  DATA_SIZE: number = 100;
 
   constructor(
     private store: Store<{
@@ -39,7 +40,7 @@ export class HomeComponent {
       loading: boolean;
     }>
   ) {
-    this.store.dispatch(CommerceActions.fetchCommerce());
+    this.store.dispatch(CommerceActions.fetchCommerce({ size: this.DATA_SIZE }));
     this.commerces = this.store.select(CommerceSelectors.selectCommerces);
     this.error = this.store.select(CommerceSelectors.selectCommerceError);
     this.loading = this.store.select(CommerceSelectors.selectCommerceLoading);

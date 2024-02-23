@@ -12,8 +12,8 @@ export class CommerceEffect {
     loadCommerces$ = createEffect(() =>
         this.actions$.pipe(
             ofType(CommerceActions.fetchCommerce),
-            switchMap(() =>
-                this.service.getCommerce().pipe(
+            switchMap(({ size }) =>
+                this.service.getCommerce(size).pipe(
                     map((res) => CommerceActions.fetchCommerceSuccess({ commerces: res })),
                     catchError((error: { message: string }) =>
                         of(
