@@ -1,0 +1,3 @@
+<ng-container *ngIf="commerces | async as commerceData">
+    <app-table [data]="commerceData" [displayedColumns]="displayedColumns"></app-table>
+  </ng-container>

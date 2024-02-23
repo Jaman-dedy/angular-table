@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { TableComponent } from './components/table/table.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [{
     path: '',
-    component: TableComponent
+    component: HomeComponent
 }];
