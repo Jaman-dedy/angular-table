@@ -10,6 +10,9 @@
     <div class="error-container" *ngIf="(error | async) as errorMessage">
       <div class="error-message">{{ errorMessage }}</div>
     </div>
+    <div class="error-container" *ngIf="!(commerces | async)?.length">
+      <div class="error-message">"No data found"</div>
+    </div>
     <div class="" class="md-margin" *ngIf="commerces | async as commerceData">
       <app-table
         [data]="commerceData"

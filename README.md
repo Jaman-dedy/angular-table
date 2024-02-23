@@ -1,27 +1,41 @@
-# AngularFeApp
+# Case study
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
+This project displays at least a 100 random data (commerces) from https://random-data-api.com/.
+I use angular material for the UIs and respectively ngrx store for state management and ngrx effects for fetching data.
 
-## Development server
+## Over view
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- Fetch random data from an api
+- Display data in a table
+- Filter commerces by brand
+- Search commerces by text input
+- Unit tests
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Prerequisites to run the app
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Nodejs >= 20
+- npm or yarn
+- Angular 17
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Clone the repository
+- Install dependencies
+  `npm install`
+- run the application
+  `ng start or ng s`
+- run the tests
+  `ng test`
 
-## Running end-to-end tests
+## Build with
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Angular 17
+- Angular material
+- ngrx/store, effects
 
-## Further help
+## more Improvement that can be added
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Add more tests
+- Enhance the responsiveness
