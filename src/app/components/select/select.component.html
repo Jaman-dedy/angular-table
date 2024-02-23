@@ -1,6 +1,6 @@
 <mat-form-field [style.width.%]="100">
     <mat-label>Brand</mat-label>
-    <mat-select [formControl]="selectedBrands" multiple (selectionChange)="onSelectionChange()" >
+    <mat-select name="selectedBrands" [formControl]="selectedBrands" multiple (selectionChange)="onSelectionChange()" >
       <mat-select-trigger>
         {{ selectedBrands.value?.[0] || '' }}
         <span *ngIf="selectedBrands.value?.length || 0 > 1" class="">
