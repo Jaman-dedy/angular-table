@@ -11,6 +11,8 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { ICommerce } from '../../types';
+import { SelectComponent } from '../select/select.component';
+import { SearchInputComponent } from '../search-input/search-input.component';
 
 @Component({
   selector: 'app-table',
@@ -27,6 +29,8 @@ import { ICommerce } from '../../types';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SelectComponent,
+    SearchInputComponent,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -64,9 +68,8 @@ export class TableComponent implements AfterViewInit, OnChanges {
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  handleSearchInputChange(inputValue: string) {
+    this.dataSource.filter = inputValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
