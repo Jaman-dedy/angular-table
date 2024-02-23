@@ -21,3 +21,19 @@ tr[mat-row] {
 tr[mat-row]:hover {
   background: #f5f6f8;
 }
+
+@media screen and (max-width: 768px) {
+  th[mat-header-cell],
+  td[mat-cell] {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  th[mat-header-cell],
+  td[mat-cell] {
+    padding: 5px;
+    font-size: 12px;
+  }
+}

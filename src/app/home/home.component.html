@@ -1,3 +1,11 @@
-<ng-container *ngIf="commerces | async as commerceData">
+
+
+<div class="wrapper">
+  <div class="header">
+    <h1>Angular table case study</h1>
+  </div>
+  <div class="" class="md-margin" *ngIf="commerces | async as commerceData">
     <app-table [data]="commerceData" [displayedColumns]="displayedColumns"></app-table>
-  </ng-container>
+</div>
+</div>
+

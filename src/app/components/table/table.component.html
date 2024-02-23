@@ -58,7 +58,7 @@
       <tr mat-row *matRowDef="let commerce; columns: displayedColumns;"></tr>
     </table>
   
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    <mat-paginator [style.width.%]="100" [pageSizeOptions]="[5, 10, 20]"
                    showFirstLastButtons
                    aria-label="Select page of commerces">
     </mat-paginator>

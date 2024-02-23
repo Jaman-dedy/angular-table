@@ -44,8 +44,8 @@ export class TableComponent implements AfterViewInit, OnChanges {
 
   dataSource = new MatTableDataSource<ICommerce>(this.data);
 
-  brands: string[] = []; // reusable select components
-  selectedBrands = new FormControl([]); // for select component
+  brands: string[] = [];
+  selectedBrands = new FormControl([]);
 
   constructor() { }
   ngOnChanges(changes: SimpleChanges): void {
